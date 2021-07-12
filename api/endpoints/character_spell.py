@@ -12,7 +12,9 @@ from .spell import spell_fields
 class CharacterSpellResource(Resource):
     @api.doc(security="Bearer")
     @api.marshal_with(spell_fields)
+    @api.response(401, "Unauthorized")
     @api.response(404, "Link between character and spell not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def get(self, character_id: int, spell_id: int):
         return (
@@ -24,8 +26,10 @@ class CharacterSpellResource(Resource):
 
     @api.doc(security="Bearer")
     @api.response(200, "Character linked to spell")
+    @api.response(401, "Unauthorized")
     @api.response(404, "Character or spell not found")
     @api.response(409, "Link between character and spell already exists")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def put(self, character_id: int, spell_id: int):
         character = Character.query.get_or_404(
@@ -51,8 +55,10 @@ class CharacterSpellResource(Resource):
         return {"message": "Character linked to spell"}, 200
 
     @api.doc(security="Bearer")
-    @api.response(204, "Character deleted")
+    @api.response(204, "Link between character and spell deleted")
+    @api.response(401, "Unauthorized")
     @api.response(404, "Link between character and spell not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def delete(self, character_id: int, spell_id: int):
         character_spell = (

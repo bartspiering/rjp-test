@@ -38,7 +38,9 @@ spell_parser.add_argument("light", type=str)
 class SpellResource(Resource):
     @api.doc(security="Bearer")
     @api.marshal_with(spell_fields)
+    @api.response(401, "Unauthorized")
     @api.response(404, "Spell not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def get(self, spell_id: int):
         return Spell.query.get_or_404(spell_id, description="Spell not found")
@@ -47,7 +49,9 @@ class SpellResource(Resource):
     @api.expect(spell_payload_fields)
     @api.marshal_with(spell_fields, code=200, description="Spell updated")
     @api.response(400, "Invalid input")
+    @api.response(401, "Unauthorized")
     @api.response(404, "Spell not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def put(self, spell_id: int):
         spell = Spell.query.get_or_404(spell_id, description="Spell not found")
@@ -63,7 +67,9 @@ class SpellResource(Resource):
 
     @api.doc(security="Bearer")
     @api.response(204, "Spell deleted")
+    @api.response(401, "Unauthorized")
     @api.response(404, "Spell not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def delete(self, spell_id: int):
         spell = Spell.query.get_or_404(spell_id, description="Spell not found")

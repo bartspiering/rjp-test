@@ -41,6 +41,9 @@ class CharacterListResource(Resource):
     @api.doc(security="Bearer")
     @api.expect(character_list_parser)
     @api.marshal_with(character_list_fields)
+    @api.response(400, "Invalid input")
+    @api.response(401, "Unauthorized")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def get(self):
         args = character_list_parser.parse_args()
@@ -76,6 +79,8 @@ class CharacterListResource(Resource):
     @api.expect(character_payload_fields)
     @api.marshal_with(character_fields, code=201, description="Character created")
     @api.response(400, "Invalid input")
+    @api.response(401, "Unauthorized")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def post(self):
         args = character_parser.parse_args()

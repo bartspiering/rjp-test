@@ -56,7 +56,9 @@ character_parser.add_argument("death", type=str)
 class CharacterResource(Resource):
     @api.doc(security="Bearer")
     @api.marshal_with(character_fields)
+    @api.response(401, "Unauthorized")
     @api.response(404, "Character not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def get(self, character_id: int):
         return Character.query.get_or_404(
@@ -67,7 +69,9 @@ class CharacterResource(Resource):
     @api.expect(character_payload_fields)
     @api.marshal_with(character_fields, code=200, description="Character updated")
     @api.response(400, "Invalid input")
+    @api.response(401, "Unauthorized")
     @api.response(404, "Character not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def put(self, character_id: int):
         character = Character.query.get_or_404(
@@ -85,7 +89,9 @@ class CharacterResource(Resource):
 
     @api.doc(security="Bearer")
     @api.response(204, "Character deleted")
+    @api.response(401, "Unauthorized")
     @api.response(404, "Character not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def delete(self, character_id: int):
         character = Character.query.get_or_404(

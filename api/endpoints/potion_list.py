@@ -25,6 +25,8 @@ class PotionListResource(Resource):
     @api.doc(security="Bearer")
     @api.expect(pagination_request_parser)
     @api.marshal_with(potion_list_fields)
+    @api.response(401, "Unauthorized")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def get(self):
         return pagination.paginate(
@@ -35,6 +37,8 @@ class PotionListResource(Resource):
     @api.expect(potion_payload_fields)
     @api.marshal_with(potion_fields, code=201, description="Potion created")
     @api.response(400, "Invalid input")
+    @api.response(401, "Unauthorized")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def post(self):
         args = potion_parser.parse_args()

@@ -1,4 +1,5 @@
 from flask import Flask
+import flask_jwt_extended
 
 from model import db
 from api import api as api_app, jwt
@@ -16,6 +17,10 @@ def create_app(config_name="DevelopmentConfig"):
     jwt.init_app(app)
 
     pagination.init_app(app, db)
+
+    @app.errorhandler(flask_jwt_extended.exceptions.NoAuthorizationError)
+    def handle_no_authorization_error(e):
+        return {"message": str(e)}, 401
 
     import api.endpoints
 

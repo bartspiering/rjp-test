@@ -12,7 +12,9 @@ from .potion import potion_fields
 class CharacterPotionResource(Resource):
     @api.doc(security="Bearer")
     @api.marshal_with(potion_fields)
+    @api.response(401, "Unauthorized")
     @api.response(404, "Link between character and potion not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def get(self, character_id: int, potion_id: int):
         return (
@@ -24,8 +26,10 @@ class CharacterPotionResource(Resource):
 
     @api.doc(security="Bearer")
     @api.response(200, "Character linked to potion")
+    @api.response(401, "Unauthorized")
     @api.response(404, "Character or potion not found")
     @api.response(409, "Link between character and potion already exists")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def put(self, character_id: int, potion_id: int):
         character = Character.query.get_or_404(
@@ -51,7 +55,9 @@ class CharacterPotionResource(Resource):
         return {"message": "Character linked to potion"}, 200
 
     @api.doc(security="Bearer")
-    @api.response(204, "Character deleted")
+    @api.response(204, "Link between character and potion deleted")
+    @api.response(401, "Unauthorized")
+    @api.response(422, "Unprocessable entity")
     @api.response(404, "Link between character and potion not found")
     @jwt_required()
     def delete(self, character_id: int, potion_id: int):

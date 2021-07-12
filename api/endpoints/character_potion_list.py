@@ -16,6 +16,8 @@ class CharacterPotionListResource(Resource):
     @api.doc(security="Bearer")
     @api.expect(pagination_request_parser)
     @api.marshal_with(potion_list_fields)
+    @api.response(401, "Unauthorized")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def get(self, character_id: int):
         query = Potion.query.join(

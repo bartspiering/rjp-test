@@ -38,7 +38,9 @@ potion_parser.add_argument("difficulty_level", type=str)
 class PotionResource(Resource):
     @api.doc(security="Bearer")
     @api.marshal_with(potion_fields)
+    @api.response(401, "Unauthorized")
     @api.response(404, "Potion not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def get(self, potion_id: int):
         return Potion.query.get_or_404(potion_id, description="Potion not found")
@@ -47,7 +49,9 @@ class PotionResource(Resource):
     @api.expect(potion_payload_fields)
     @api.marshal_with(potion_fields, code=200, description="Potion updated")
     @api.response(400, "Invalid input")
+    @api.response(401, "Unauthorized")
     @api.response(404, "Potion not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def put(self, potion_id: int):
         potion = Potion.query.get_or_404(potion_id, description="Potion not found")
@@ -63,7 +67,9 @@ class PotionResource(Resource):
 
     @api.doc(security="Bearer")
     @api.response(204, "Potion deleted")
+    @api.response(401, "Unauthorized")
     @api.response(404, "Potion not found")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def delete(self, potion_id: int):
         potion = Potion.query.get_or_404(potion_id, description="Potion not found")

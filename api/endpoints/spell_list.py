@@ -25,6 +25,8 @@ class SpellListResource(Resource):
     @api.doc(security="Bearer")
     @api.expect(pagination_request_parser)
     @api.marshal_with(spell_list_fields)
+    @api.response(401, "Unauthorized")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def get(self):
         return pagination.paginate(
@@ -35,6 +37,8 @@ class SpellListResource(Resource):
     @api.expect(spell_payload_fields)
     @api.marshal_with(spell_fields, code=201, description="Spell created")
     @api.response(400, "Invalid input")
+    @api.response(401, "Unauthorized")
+    @api.response(422, "Unprocessable entity")
     @jwt_required()
     def post(self):
         args = spell_parser.parse_args()

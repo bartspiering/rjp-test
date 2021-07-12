@@ -5,6 +5,8 @@ class Config(object):
     DEBUG = False
     TESTING = False
 
+    PROPAGATE_EXCEPTIONS = True
+
     SQLALCHEMY_DATABASE_URI = (
         f"sqlite:///{os.path.dirname(os.path.abspath(__file__))}/database/wizards.db"
     )
