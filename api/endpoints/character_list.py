@@ -38,7 +38,7 @@ character_list_parser.add_argument("filter_value", type=str, location="args")
 
 @api.route("/characters")
 class CharacterListResource(Resource):
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Retrieve all characters")
     @api.expect(character_list_parser)
     @api.marshal_with(character_list_fields)
     @api.response(400, "Invalid input")
@@ -75,7 +75,7 @@ class CharacterListResource(Resource):
             query, character_fields, pagination_schema_hook=pagination_schema_hook
         )
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Add a character")
     @api.expect(character_payload_fields)
     @api.marshal_with(character_fields, code=201, description="Character created")
     @api.response(400, "Invalid input")

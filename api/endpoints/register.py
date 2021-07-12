@@ -24,6 +24,7 @@ register_response_fields = api.model(
 
 @api.route("/register")
 class RegisterResource(Resource):
+    @api.doc(description="Register for access to protected endpoints")
     @api.expect(register_request_fields)
     @api.marshal_with(register_response_fields, code=201, description="User created")
     @api.response(400, "Invalid input")

@@ -10,7 +10,7 @@ from .spell import spell_fields
 
 @api.route("/characters/<int:character_id>/spells/<int:spell_id>")
 class CharacterSpellResource(Resource):
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Get a character's spell by ID")
     @api.marshal_with(spell_fields)
     @api.response(401, "Unauthorized")
     @api.response(404, "Link between character and spell not found")
@@ -24,7 +24,7 @@ class CharacterSpellResource(Resource):
             .first_or_404(description="Link between character and spell not found")
         )
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Link a spell to a character")
     @api.response(200, "Character linked to spell")
     @api.response(401, "Unauthorized")
     @api.response(404, "Character or spell not found")
@@ -54,7 +54,7 @@ class CharacterSpellResource(Resource):
 
         return {"message": "Character linked to spell"}, 200
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Delete a link between character and spell")
     @api.response(204, "Link between character and spell deleted")
     @api.response(401, "Unauthorized")
     @api.response(404, "Link between character and spell not found")

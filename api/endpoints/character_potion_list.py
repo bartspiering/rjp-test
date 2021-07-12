@@ -13,7 +13,7 @@ from .potion_list import potion_list_fields
 
 @api.route("/characters/<int:character_id>/potions")
 class CharacterPotionListResource(Resource):
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Retrieve all potions of a character")
     @api.expect(pagination_request_parser)
     @api.marshal_with(potion_list_fields)
     @api.response(401, "Unauthorized")

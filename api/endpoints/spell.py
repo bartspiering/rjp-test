@@ -36,7 +36,7 @@ spell_parser.add_argument("light", type=str)
 
 @api.route("/spells/<int:spell_id>")
 class SpellResource(Resource):
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Get a spell by ID")
     @api.marshal_with(spell_fields)
     @api.response(401, "Unauthorized")
     @api.response(404, "Spell not found")
@@ -45,7 +45,7 @@ class SpellResource(Resource):
     def get(self, spell_id: int):
         return Spell.query.get_or_404(spell_id, description="Spell not found")
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Change a spell")
     @api.expect(spell_payload_fields)
     @api.marshal_with(spell_fields, code=200, description="Spell updated")
     @api.response(400, "Invalid input")
@@ -65,7 +65,7 @@ class SpellResource(Resource):
 
         return spell
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Delete a character")
     @api.response(204, "Spell deleted")
     @api.response(401, "Unauthorized")
     @api.response(404, "Spell not found")

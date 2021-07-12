@@ -54,7 +54,7 @@ character_parser.add_argument("death", type=str)
 
 @api.route("/characters/<int:character_id>")
 class CharacterResource(Resource):
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Get a character by ID")
     @api.marshal_with(character_fields)
     @api.response(401, "Unauthorized")
     @api.response(404, "Character not found")
@@ -65,7 +65,7 @@ class CharacterResource(Resource):
             character_id, description="Character not found"
         )
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Change a character")
     @api.expect(character_payload_fields)
     @api.marshal_with(character_fields, code=200, description="Character updated")
     @api.response(400, "Invalid input")
@@ -87,7 +87,7 @@ class CharacterResource(Resource):
 
         return character
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Delete a character")
     @api.response(204, "Character deleted")
     @api.response(401, "Unauthorized")
     @api.response(404, "Character not found")

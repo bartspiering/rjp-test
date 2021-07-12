@@ -16,5 +16,20 @@ api = Api(
             ),
         }
     },
+    description=(
+        "<p>"
+        "<strong>"
+        "Flask / SQLAlchemy API containing wizard characters, potions and spells"
+        "</strong>"
+        "</p>"
+        "<p>"
+        "For using the protected endpoints, please register first with POST "
+        "/register and get the Bearer access token or use POST /login to get the "
+        "Bearer access token when you are already registered."
+        "</p>"
+    ),
+    title="Wizard API",
+    default="Endpoints",
+    default_label=None,
     validate=True,
 )

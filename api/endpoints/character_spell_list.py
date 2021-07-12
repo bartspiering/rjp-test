@@ -13,7 +13,7 @@ from .spell_list import spell_list_fields
 
 @api.route("/characters/<int:character_id>/spells")
 class CharacterSpellListResource(Resource):
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Retrieve all spells of a character")
     @api.expect(pagination_request_parser)
     @api.marshal_with(spell_list_fields)
     @api.response(401, "Unauthorized")

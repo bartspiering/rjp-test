@@ -22,7 +22,7 @@ potion_list_fields = api.model(
 
 @api.route("/potions")
 class PotionListResource(Resource):
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Retrieve all potions")
     @api.expect(pagination_request_parser)
     @api.marshal_with(potion_list_fields)
     @api.response(401, "Unauthorized")
@@ -33,7 +33,7 @@ class PotionListResource(Resource):
             Potion, potion_fields, pagination_schema_hook=pagination_schema_hook
         )
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Add a potion")
     @api.expect(potion_payload_fields)
     @api.marshal_with(potion_fields, code=201, description="Potion created")
     @api.response(400, "Invalid input")

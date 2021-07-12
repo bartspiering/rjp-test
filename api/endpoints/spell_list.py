@@ -22,7 +22,7 @@ spell_list_fields = api.model(
 
 @api.route("/spells")
 class SpellListResource(Resource):
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Retrieve all spells")
     @api.expect(pagination_request_parser)
     @api.marshal_with(spell_list_fields)
     @api.response(401, "Unauthorized")
@@ -33,7 +33,7 @@ class SpellListResource(Resource):
             Spell, spell_fields, pagination_schema_hook=pagination_schema_hook
         )
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Add a spell")
     @api.expect(spell_payload_fields)
     @api.marshal_with(spell_fields, code=201, description="Spell created")
     @api.response(400, "Invalid input")

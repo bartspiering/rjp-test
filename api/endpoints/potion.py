@@ -36,7 +36,7 @@ potion_parser.add_argument("difficulty_level", type=str)
 
 @api.route("/potions/<int:potion_id>")
 class PotionResource(Resource):
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Get a potion by ID")
     @api.marshal_with(potion_fields)
     @api.response(401, "Unauthorized")
     @api.response(404, "Potion not found")
@@ -45,7 +45,7 @@ class PotionResource(Resource):
     def get(self, potion_id: int):
         return Potion.query.get_or_404(potion_id, description="Potion not found")
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Change a potion")
     @api.expect(potion_payload_fields)
     @api.marshal_with(potion_fields, code=200, description="Potion updated")
     @api.response(400, "Invalid input")
@@ -65,7 +65,7 @@ class PotionResource(Resource):
 
         return potion
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Delete a potion")
     @api.response(204, "Potion deleted")
     @api.response(401, "Unauthorized")
     @api.response(404, "Potion not found")

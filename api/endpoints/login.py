@@ -20,6 +20,7 @@ login_response_fields = api.model("LoginResponse", {"access_token": fields.Strin
 
 @api.route("/login")
 class LoginResource(Resource):
+    @api.doc(description="Login for access to protected endpoints")
     @api.expect(login_request_fields)
     @api.marshal_with(login_response_fields, code=200, description="Login successful")
     @api.response(400, "Invalid input")

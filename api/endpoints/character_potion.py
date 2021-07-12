@@ -10,7 +10,7 @@ from .potion import potion_fields
 
 @api.route("/characters/<int:character_id>/potions/<int:potion_id>")
 class CharacterPotionResource(Resource):
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Get a character's potion by ID")
     @api.marshal_with(potion_fields)
     @api.response(401, "Unauthorized")
     @api.response(404, "Link between character and potion not found")
@@ -24,7 +24,7 @@ class CharacterPotionResource(Resource):
             .first_or_404(description="Link between character and potion not found")
         )
 
-    @api.doc(security="Bearer")
+    @api.doc(security="Bearer", description="Link a potion to a character")
     @api.response(200, "Character linked to potion")
     @api.response(401, "Unauthorized")
     @api.response(404, "Character or potion not found")
@@ -54,7 +54,9 @@ class CharacterPotionResource(Resource):
 
         return {"message": "Character linked to potion"}, 200
 
-    @api.doc(security="Bearer")
+    @api.doc(
+        security="Bearer", description="Delete a link between character and potion"
+    )
     @api.response(204, "Link between character and potion deleted")
     @api.response(401, "Unauthorized")
     @api.response(422, "Unprocessable entity")
